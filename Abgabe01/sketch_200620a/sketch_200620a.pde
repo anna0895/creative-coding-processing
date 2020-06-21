@@ -3,12 +3,6 @@ int winkel;// wird später aus der Anzahl der Ecken berechnet
 float x1, y1, x2, y2;
 color colors[];
 
-int posX = 0;
-int posX2 = 1000;
-int updateRate = 10;
-
-
-
 void setup() {
   size(1000, 1000);
   background(0);
@@ -21,65 +15,17 @@ void setup() {
 }
 
 void draw() {
-
-  //Aufruf der Funktion mit den Parametern:
-  //Eckenzahl, MauspositionX, MauspositionY, RadiusX, RadiusY
-
-
-  //if (mouseButton == LEFT) { 
-  if (frameCount % updateRate == 0) {
-    int posY = (int)random(0, 1000);
-    if (posX>=0) {
-      posX=posX+10;
-      vieleck(ecken, posX, posY, 80, 80);
-      if (posX>=1000) {
-        posX2=posX2-10;
-        vieleck(ecken, posX2, posY, 80, 80);
-        fill(0, 20);
-        circle(mouseX, mouseY, 130);
-      }
-    }
-  }
-  //die 2 folgenden Anweisungen lassen die Objekte nach kurzer Zeit verblassen
-  //fill(0, 20);
-  // background(0);
-  //rect(0, 0, width, height);
-
-  //vieleck(ecken, mouseX, mouseY, 80, 80);
-  // } else if (mouseButton == RIGHT) { 
-
-  /*
-   CIRCLE
-   circle(mouseX, mouseY, 130);
-   if (mouseY < 150) {
-   strokeWeight(2);
-   } else if (mouseY < 300) {
-   strokeWeight(4);
-   } else if (mouseY < 450) {
-   strokeWeight(6);
-   } else if (mouseY < 750) {
-   strokeWeight(8);
-   } else if (mouseY < 1000) {
-   strokeWeight(10);
-   }
-   
-   if (mouseX < 150) {
-   stroke(140, 3, 53);
-   } else if (mouseX < 300) {
-   stroke(242, 92, 147);
-   } else if (mouseX < 450) {
-   stroke(1, 64, 17);
-   } else if (mouseX < 750) {
-   stroke(1, 38, 6);
-   } else if (mouseX < 1000) {
-   stroke(88, 140, 35);
-   }
-   */
-  // }
+  
+  //Überblendet die alten Vielecke
+  fill(0, 10);
+  rect(0, 0, width, height);
+  
+  vieleck(ecken, (int)random(0, 1000), (int)random(0, 1000), 80, 80);
 }
+
+
 // Funktion zeichnet Vielecke
 void  vieleck (int seiten, int x, int y, int radiusX, int radiusY) {
-
   // winkel entspricht dem Abstander der Ecken in Grad
   // z.B.: 3 Ecken:120°; 4 Ecken:90° usw.
   winkel = (int) 360/seiten;
@@ -93,7 +39,17 @@ void  vieleck (int seiten, int x, int y, int radiusX, int radiusY) {
     // zweiter Punkt
     x2 =sin(radians(grade+winkel))*radiusX+(x);
     y2 =cos(radians(grade+winkel))*radiusY+(y);
-
+    
+    //Y-Achse Position der Maus, bestimmt die Stärke der Kontur
+    if (mouseY < 300) {
+      strokeWeight(1);
+    } else if (mouseY < 600) {
+      strokeWeight(2);
+    } else if (mouseY < 1000) {
+      strokeWeight(3);
+    } 
+    
+    //X-Achse, Position der Maus bestimmt die Farbe der Kontur
     if (mouseX < 150) {
       stroke(56, 43, 140);
     } else if (mouseX < 300) {
@@ -105,7 +61,7 @@ void  vieleck (int seiten, int x, int y, int radiusX, int radiusY) {
     } else if (mouseX < 1000) {
       stroke(242, 181, 167);
     }
-    strokeWeight(1);
+
     //zeichnet Linie zwischen Punkt 1 und Punkt 2
     line(x1, y1, x2, y2);
   }
