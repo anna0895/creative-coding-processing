@@ -2,13 +2,16 @@ int ecken = 6; //Anzahl der Ecken!
 int winkel;// wird später aus der Anzahl der Ecken berechnet
 float x1, y1, x2, y2;
 color colors[];
-int posY = (int)random(0, 1000);
+
 int posX = 0;
+int posX2 = 1000;
+int updateRate = 10;
 
 
 
 void setup() {
   size(1000, 1000);
+  background(0);
 
   colors = new color[4];
   colors[0] = color(0, 115, 191);
@@ -18,15 +21,30 @@ void setup() {
 }
 
 void draw() {
-  //die 2 folgenden Anweisungen lassen die Objekte nach kurzer Zeit verblassen
-  fill(0, 20);
-  // background(0);
-  rect(0, 0, width, height);
+
   //Aufruf der Funktion mit den Parametern:
   //Eckenzahl, MauspositionX, MauspositionY, RadiusX, RadiusY
 
+
   //if (mouseButton == LEFT) { 
-  vieleck(ecken, posX, posY, 80, 80);
+  if (frameCount % updateRate == 0) {
+    int posY = (int)random(0, 1000);
+    if (posX>=0) {
+      posX=posX+10;
+      vieleck(ecken, posX, posY, 80, 80);
+      if (posX>=1000) {
+        posX2=posX2-10;
+        vieleck(ecken, posX2, posY, 80, 80);
+        fill(0, 20);
+        circle(mouseX, mouseY, 130);
+      }
+    }
+  }
+  //die 2 folgenden Anweisungen lassen die Objekte nach kurzer Zeit verblassen
+  //fill(0, 20);
+  // background(0);
+  //rect(0, 0, width, height);
+
   //vieleck(ecken, mouseX, mouseY, 80, 80);
   // } else if (mouseButton == RIGHT) { 
 
